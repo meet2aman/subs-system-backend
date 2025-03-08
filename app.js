@@ -1,18 +1,23 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import "dotenv/config";
 import { PORT } from "./config/env.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
 import connectToDatabase from "./database/mongodb.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 // middlewares
 app.use(express.json()); // json parser middleware
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use("/api/v1/auth", authRouter); // auth routes
 app.use("/api/v1/users", userRouter); // user routes
 app.use("/api/v1/subscriptions", subscriptionRouter); // subscription routes
+app.use(errorMiddleware); // error handling middleware
 
 app.get("/", (req, res) => {
   console.log(`Welcome to Subscription Tracker Backend API`);
