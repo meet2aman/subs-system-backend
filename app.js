@@ -1,4 +1,4 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import "dotenv/config";
 import { PORT } from "./config/env.js";
 import userRouter from "./routes/user.routes.js";

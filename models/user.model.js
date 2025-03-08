@@ -18,7 +18,7 @@ const userSchema = new Schema(
       minLength: 5,
       lowercase: true,
       maxLength: 40,
-      match: [/\S+@S+\.\S+/, "Please fill a valid email address"],
+      match: [/^\S+@\S+\.\S+$/, "Please fill a valid email address"],
     },
     password: {
       type: String,
