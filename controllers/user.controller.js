@@ -1,8 +1,30 @@
-import { Error } from "mongoose";
 import User from "../models/user.model.js";
 
 export const getUsers = async (req, res, next) => {
   try {
+    const users = await User.find();
+    res.status(200).json({
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUser = async (req, res, next) => {
+  const userId = req.params.id || req.query.id;
+  try {
+    const user = await User.findById(userId).select("-password");
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+    if (!user) {
+      const error = new Error("User not Found");
+      error.statusCode = 404;
+      throw error;
+    }
   } catch (error) {
     next(error);
   }
